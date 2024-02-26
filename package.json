@@ -18,7 +18,7 @@
     "postinstall": "yarn husky install",
     "w3f:deploy": "npx w3f deploy web3-functions/redstone-relay-interval/index.ts",
     "w3f-relay:deploy": "npx w3f deploy web3-functions/redstone-relay/index.ts",
-    "w3f:test": "npx w3f test web3-functions/redstone-relay/index.ts --logs --chain-id=80001"
+    "w3f:test": "npx w3f test web3-functions/redstone-relay/index.ts --logs --chain-id=4202"
   },
   "license": "ISC",
   "devDependencies": {
