@@ -7,16 +7,18 @@
     "clean": "yarn hardhat clean && rm -rf node_modules && rm -rf dist",
     "compile": "npx hardhat compile --force",
     "deploy": "npx hardhat deploy",
-    "test": "npx hardhat test --network hardhat",
+    "test": "npx hardhat test",
     "format": "prettier --write '*/**/*.*{js,json,md,ts}'",
     "format:check": "prettier --check '*/**/*.*{js,json,md,ts}'",
-    "tinker": "npx hardhat run scripts/tinker.ts",
+    "updateOracle": "npx hardhat run scripts/updateOracle.ts",
+    "queryOracle": "npx hardhat run scripts/queryOracle.ts",
     "lint": "eslint --cache . && yarn lint:sol",
     "lint:ts": "eslint -c .eslintrc.json --ext \"**/*.ts\" \"**/*.test.ts\"",
     "lint:sol": "solhint 'contracts/**/*.sol'",
     "postinstall": "yarn husky install",
-    "w3f:deploy": "npx w3f deploy web3-functions/redstone/index.ts",
-    "w3f:test": "npx w3f test web3-functions/redstone/index.ts --logs --chain-id=80001"
+    "w3f:deploy": "npx w3f deploy web3-functions/redstone-relay-interval/index.ts",
+    "w3f-relay:deploy": "npx w3f deploy web3-functions/redstone-relay/index.ts",
+    "w3f:test": "npx w3f test web3-functions/redstone-relay/index.ts --logs --chain-id=80001"
   },
   "license": "ISC",
   "devDependencies": {
@@ -61,7 +63,10 @@
     "*.*{ts,js}": "eslint -c .eslintrc.json"
   },
   "dependencies": {
+    "@gelatonetwork/relay-sdk": "^5.5.5",
+    "@nomiclabs/hardhat-etherscan": "^3.1.8",
     "@openzeppelin/contracts": "^4.9.0",
-    "@redstone-finance/evm-connector": "^0.0.22"
+    "@redstone-finance/evm-connector": "^0.3.6",
+    "@redstone-finance/sdk": "^0.3.6"
   }
 }

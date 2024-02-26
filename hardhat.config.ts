@@ -6,6 +6,8 @@ import "@nomicfoundation/hardhat-chai-matchers";
 import "@nomiclabs/hardhat-ethers";
 import "@typechain/hardhat";
 import "hardhat-deploy";
+import "@nomiclabs/hardhat-etherscan";
+
 
 // Process Env Variables
 import * as dotenv from "dotenv";
@@ -22,7 +24,7 @@ const config: HardhatUserConfig = {
   w3f: {
     rootDir: "./web3-functions",
     debug: false,
-    networks: ["hardhat", "mumbai"], //(multiChainProvider) injects provider for these networks
+    networks: ["hardhat", "reyaCronos","unreal"], //(multiChainProvider) injects provider for these networks
   },
   // hardhat-deploy
   namedAccounts: {
@@ -30,13 +32,12 @@ const config: HardhatUserConfig = {
       default: 0,
     },
   },
-  defaultNetwork: "hardhat",
+  defaultNetwork: "mumbai",
 
   networks: {
     hardhat: {
       forking: {
-        url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_ID}`,
-        blockNumber: 35241432,
+        url: `https://rpc.unreal.gelato.digital`
       },
     },
 
@@ -48,21 +49,50 @@ const config: HardhatUserConfig = {
     mumbai: {
       accounts: PK ? [PK] : [],
       chainId: 80001,
-      url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_ID}`,
+      url: `https://polygon-mumbai.g.alchemy.com/v2/_HsuvYjrWX8zIZS6oAXPWU8OR1IyNYy-`,
     },
     polygon: {
       accounts: PK ? [PK] : [],
       chainId: 137,
       url: "https://polygon-rpc.com",
     },
+    geloptestnet: {
+      accounts: PK ? [PK] : [],
+      chainId: 42069,
+      url: "https://rpc.op-testnet.gelato.digital",
+    },
+    unreal: {
+      accounts: PK ? [PK] : [],
+      chainId: 18231,
+      url: "https://rpc.unreal.gelato.digital",
+    },
+    zkatana: {
+      accounts: PK ? [PK] : [],
+      chainId: 1261120,
+      url: "https://rpc.zkatana.gelato.digital",
+    },
+    liskSepolia: {
+      accounts: PK ? [PK] : [],
+      chainId: 4202,
+      url: `https://rpc.sepolia-api.lisk.com`,
+    },
+    reyaCronos: {
+      accounts: PK ? [PK] : [],
+      chainId: 1729,
+      url: `https://rpc.reya-cronos.gelato.digital`,
+    },
+ 
   },
 
   solidity: {
     compilers: [
       {
-        version: "0.8.18",
+        version: "0.8.23",
         settings: {
-          optimizer: { enabled: true, runs: 200 },
+          optimizer: { enabled: true, runs: 999999 },
+          // Some networks don't support opcode PUSH0, we need to override evmVersion
+          // See https://stackoverflow.com/questions/76328677/remix-returned-error-jsonrpc2-0-errorinvalid-opcode-push0-id24
+          evmVersion: "paris",
         },
       },
     ],
@@ -74,10 +104,39 @@ const config: HardhatUserConfig = {
   },
 
   // hardhat-deploy
-  verify: {
-    etherscan: {
-      apiKey: ETHERSCAN_API_KEY ? ETHERSCAN_API_KEY : "",
+  etherscan: {
+    apiKey: {
+      unreal: 'your API key',
+      liskSepolia: 'your API KEY',
+      reyaCronos: 'your API KEY',
+      mumbai: ETHERSCAN_API_KEY!
     },
+    customChains: [
+      {
+        network: "unreal",
+        chainId: 18231,
+        urls: {
+          apiURL: "https://unreal.blockscout.com/api",
+          browserURL: "https://unreal.blockscout.com"
+        }
+      },
+      {
+        network: "reyaCronos",
+        chainId: 1729,
+        urls: {
+          apiURL: "https://reya-cronos.blockscout.com/api",
+          browserURL: "https://reya-cronos.blockscout.com"
+        }
+      },
+      {
+        network: "liskSepolia",
+        chainId: 4202,
+        urls: {
+          apiURL: "https://sepolia-blockscout.lisk.com/api",
+          browserURL: "https://sepolia-blockscout.lisk.com"
+        }
+      }
+    ]
   },
 };
 

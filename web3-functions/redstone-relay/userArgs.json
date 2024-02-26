@@ -1,0 +1,6 @@
+{ 
+"priceFeed":"BTC",
+"priceFeedAdapterAddress":"0xFFb3418dfeD0cD1E7A9524Bb9eE157653703028e",
+"intervalInMin": "5",
+"deviationThreshold":"2"
+}
